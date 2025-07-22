@@ -5,7 +5,19 @@ canvas.height = 640;
 
 let gameState = 'start';
 let score = 0;
-let frog = { x: 180, y: 100, w: 32, h: 32, vy: 0 };
+
+const frogImg = new Image();
+frogImg.src = 'assets/images/frog_pixel.png'; // Optional: replace with your asset
+
+let frog = {
+  x: 180,
+  y: 580,
+  w: 32,
+  h: 32,
+  vy: 0,
+  vx: 0
+};
+
 let pads = [];
 const gravity = 0.6;
 
@@ -23,8 +35,16 @@ shareBtn.onclick = shareScore;
 function startGame() {
   gameState = 'running';
   score = 0;
-  frog = { x: 180, y: 100, w: 32, h: 32, vy: 0 };
-  pads = [{ x: 140, y: 580, w: 80, h: 16 }];
+  frog = { x: 180, y: 580, w: 32, h: 32, vy: -12, vx: 0 };
+  pads = [];
+  for (let i = 0; i < 6; i++) {
+    pads.push({
+      x: Math.random() * (canvas.width - 80),
+      y: i * 120,
+      w: 80,
+      h: 16
+    });
+  }
   startScreen.classList.add('hidden');
   gameOverScreen.classList.add('hidden');
   loop();
@@ -41,20 +61,22 @@ function update() {
   frog.vy += gravity;
   frog.y += frog.vy;
 
-  if (frog.y + frog.h > canvas.height) return gameOver();
+  // Move platforms down
+  pads.forEach((p) => (p.y += 2));
+  pads = pads.filter((p) => p.y < canvas.height + p.h);
 
-  pads.forEach((p, i) => {
-    p.y -= 2;
-    if (p.y < -p.h) {
-      pads.splice(i, 1);
-      pads.push({
-        x: Math.random() * (canvas.width - 80),
-        y: canvas.height,
-        w: 80,
-        h: 16
-      });
-    }
+  // Add new pad
+  if (pads.length < 6) {
+    pads.unshift({
+      x: Math.random() * (canvas.width - 80),
+      y: -20,
+      w: 80,
+      h: 16
+    });
+  }
 
+  // Collision
+  for (const p of pads) {
     if (
       frog.vy > 0 &&
       frog.x + frog.w > p.x &&
@@ -63,18 +85,40 @@ function update() {
       frog.y + frog.h <= p.y + p.h
     ) {
       frog.vy = -12;
-      frog.y = p.y - frog.h;
       score++;
     }
-  });
+  }
+
+  // Boundaries
+  if (frog.y + frog.h > canvas.height) {
+    return gameOver();
+  }
+  if (frog.x < 0) frog.x = 0;
+  if (frog.x + frog.w > canvas.width) frog.x = canvas.width - frog.w;
+
+  frog.x += frog.vx * 4;
 }
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#00aaff';
-  ctx.fillRect(frog.x, frog.y, frog.w, frog.h);
-  ctx.fillStyle = '#0a0';
-  pads.forEach(p => ctx.fillRect(p.x, p.y, p.w, p.h));
+  ctx.fillStyle = '#334';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Draw pads
+  ctx.fillStyle = '#0f0';
+  for (const p of pads) {
+    ctx.fillRect(p.x, p.y, p.w, p.h);
+  }
+
+  // Draw frog
+  if (frogImg.complete) {
+    ctx.drawImage(frogImg, frog.x, frog.y, frog.w, frog.h);
+  } else {
+    ctx.fillStyle = '#00f';
+    ctx.fillRect(frog.x, frog.y, frog.w, frog.h);
+  }
+
+  // Score
   ctx.fillStyle = '#fff';
   ctx.font = '20px Arial';
   ctx.fillText('Score: ' + score, 10, 30);
@@ -86,14 +130,17 @@ function gameOver() {
   gameOverScreen.classList.remove('hidden');
 }
 
-window.addEventListener('mousemove', e => {
-  const rect = canvas.getBoundingClientRect();
-  frog.x = e.clientX - rect.left - frog.w / 2;
+window.addEventListener('keydown', (e) => {
+  if (gameState === 'running') {
+    if (e.code === 'ArrowLeft') frog.vx = -1;
+    if (e.code === 'ArrowRight') frog.vx = 1;
+    if (e.code === 'Space') frog.vy = -12;
+  }
 });
 
-window.addEventListener('keydown', e => {
-  if (e.code === 'Space' && gameState === 'running') {
-    frog.vy = -12;
+window.addEventListener('keyup', (e) => {
+  if (['ArrowLeft', 'ArrowRight'].includes(e.code)) {
+    frog.vx = 0;
   }
 });
 
