@@ -9,7 +9,6 @@
 <body>
   <div id="startScreen" class="overlay">
     <h1>🐸 Toad Jumper</h1>
-    <p>Press Space or Tap to jump between lily pads and collect tokens.</p>
     <button id="startButton">Start Game</button>
   </div>
 
@@ -22,45 +21,6 @@
     <button id="shareButton">Share on Farcaster</button>
   </div>
 
-  <div id="lorePage" class="overlay hidden">
-    <button id="closeLore">← Back</button>
-    <div class="rune-section" id="rune1">
-      <img src="assets/images/A_hand-drawn_and_aged_parchment_illustration_title.png" alt="Rune I Scroll">
-      <h2>🌕 Rune I: The Croak Awakens</h2>
-      <p id="rune1Text" class="locked">🔒 Collect 1 Lotus Spore to unlock.</p>
-    </div>
-    <button id="castLore">Cast This Lore</button>
-  </div>
-
-  <div id="leaderboardContainer" class="overlay hidden">
-    <button id="closeLeaderboard">← Back</button>
-    <h2>🏆 Leaderboard</h2>
-    <div class="leaderboard-tabs">
-      <button data-type="daily">📅 Daily</button>
-      <button data-type="allTime">⏳ All Time</button>
-    </div>
-    <ul id="leaderboardList"></ul>
-    <button id="shareLeaderboard">Share My Rank</button>
-  </div>
-
-  <div id="avatarPage" class="overlay hidden">
-    <button id="closeAvatar">← Back</button>
-    <h2>Your Frog Customization</h2>
-    <div id="avatarPreview"></div>
-    <div id="gearSlots"></div>
-  </div>
-
-  <div id="achievementsPage" class="overlay hidden">
-    <button id="closeAchievements">← Back</button>
-    <h2>Achievements</h2>
-    <ul id="achievementsList"></ul>
-  </div>
-
-  <script src="game.js?v=1"></script>
-  <script src="share.js?v=1"></script>
-  <script src="lore.js?v=1"></script>
-  <script src="leaderboard.js?v=1"></script>
-  <script src="avatar.js?v=1"></script>
-  <script src="achievements.js?v=1"></script>
+  <script type="module" src="game.js?v=3"></script>
 </body>
 </html>
