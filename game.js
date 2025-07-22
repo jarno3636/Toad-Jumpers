@@ -1,0 +1,1 @@
+// Core logic: jumping, collectibles, HUD, lore unlocking
