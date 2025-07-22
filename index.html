@@ -1,1 +1,24 @@
-<!-- Game HTML - UI structure placeholder -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toad Jumper</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="startScreen" class="overlay">
+    <h1>🐸 Toad Jumper</h1>
+    <p>Tap/click or press Space to jump between lily pads and collect tokens.</p>
+    <button id="startButton">Start Game</button>
+  </div>
+  <canvas id="gameCanvas"></canvas>
+  <div id="gameOverScreen" class="overlay hidden">
+    <h1>Game Over</h1>
+    <p id="finalScore"></p>
+    <button id="restartButton">Restart</button>
+    <button id="shareButton">Share on Farcaster</button>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
