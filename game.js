@@ -31,15 +31,23 @@ function loop(){
 
 function update(){
   frog.vy+=gravity; frog.y+=frog.vy;
-  if(frog.y+frog.h>canvas.height){gameOver(); return;}
+  if(frog.y+frog.h>canvas.height){return gameOver();}
   pads.forEach((p,i)=>{
     p.y-=2;
     if(p.y< -p.h){
       pads.splice(i,1);
-      pads.push({x:Math.random()*280,y:640,w:80,h:16});
+      pads.push({x:Math.random() * (canvas.width - p.w),y:canvas.height,w:p.w,h:p.h});
     }
-    if(frog.vy>0&&frog.x<p.x+p.w&&frog.x+frog.w>p.x&&frog.y+frog.h>p.y&&frog.y+frog.h<p.y+16){
-      frog.vy=-12; score++;
+    if(
+      frog.vy>0 &&
+      frog.x + frog.w > p.x &&
+      frog.x < p.x + p.w &&
+      frog.y + frog.h >= p.y &&
+      frog.y + frog.h <= p.y + p.h
+    ){
+      frog.vy=-12;
+      frog.y = p.y - frog.h;
+      score++;
     }
   });
 }
@@ -67,6 +75,9 @@ window.addEventListener('keydown',e=>{
 });
 
 function shareScore(){
-  const text=encodeURIComponent('#Tobyworld SatobySwap Patience <> $Toby <> $Taboshi I scored '+score+' in Toad Jumper!');
-  window.open('https://warpcast.com/~/compose?text='+text);
+  const text = `#Tobyworld #SatobySwap
+$Patience <> $Toby <> $Taboshi
+I scored ${score} in Toad Jumper!`;
+  const urlText = encodeURIComponent(text);
+  window.open(`https://warpcast.com/~/compose?text=${urlText}`);
 }
