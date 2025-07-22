@@ -1,24 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Toad Jumper</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- START SCREEN -->
   <div id="startScreen" class="overlay">
     <h1>🐸 Toad Jumper</h1>
-    <p>Tap/click or press Space to jump between lily pads and collect tokens.</p>
+    <p>Press Space or Tap to jump between lily pads and collect tokens.</p>
     <button id="startButton">Start Game</button>
   </div>
+
+  <!-- CANVAS -->
   <canvas id="gameCanvas"></canvas>
+
+  <!-- GAME OVER SCREEN -->
   <div id="gameOverScreen" class="overlay hidden">
     <h1>Game Over</h1>
     <p id="finalScore"></p>
     <button id="restartButton">Restart</button>
     <button id="shareButton">Share on Farcaster</button>
   </div>
-  <script src="game.js"></script>
+
+  <!-- LORE PAGE (hidden by default) -->
+  <div id="lorePage" class="overlay hidden">
+    <button id="closeLore">← Back</button>
+    <div id="rune1" class="rune-section">
+      <img src="assets/rune1.png" alt="Rune I">
+      <h2>🌕 Rune I: The Croak Awakens</h2>
+      <p id="rune1Text" class="locked">🔒 Collect 1 Lotus Spore to unlock.</p>
+    </div>
+    <!-- Run II & III sections... -->
+    <button id="castLore">Cast This Lore</button>
+  </div>
+
+  <!-- TOKEN HUD -->
+  <div id="tokenHUD">
+    <span id="tobyCount">🌀 x0</span>
+    <span id="patienceCount">🔺 x0</span>
+    <span id="taboshiCount">🍃 x0</span>
+    <span id="lotusCount">🌸 x0</span>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div id="leaderboardContainer" class="overlay hidden">
+    <button id="closeLeaderboard">← Back</button>
+    <h2>🏆 Leaderboard</h2>
+    <div class="leaderboard-tabs">
+      <button data-type="daily">📅 Daily</button>
+      <button data-type="allTime">⏳ All Time</button>
+    </div>
+    <ul id="leaderboardList"></ul>
+    <button id="shareLeaderboard">Share My Rank</button>
+  </div>
+
+  <!-- AVATAR & ACHIEVEMENTS -->
+  <div id="avatarPage" class="overlay hidden">
+    <button id="closeAvatar">← Back</button>
+    <h2>Your Frog Customization</h2>
+    <div id="avatarPreview"></div>
+    <div id="gearSlots"></div>
+  </div>
+  <div id="achievementsPage" class="overlay hidden">
+    <button id="closeAchievements">← Back</button>
+    <h2>Achievements</h2>
+    <ul id="achievementsList"></ul>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="scripts/game.js"></script>
+  <script src="scripts/share.js"></script>
+  <script src="scripts/lore.js"></script>
+  <script src="scripts/leaderboard.js"></script>
+  <script src="scripts/avatar.js"></script>
+  <script src="scripts/achievements.js"></script>
 </body>
 </html>
